@@ -1,0 +1,123 @@
+{% extends 'base.html'%}
+{% load static %}  
+
+
+{% block title %} {{ title }} {% endblock title %}
+
+
+
+{% block css  %}
+   {{ block.super }}
+   <link rel="stylesheet"  href="{% static 'user/css/custom.css' %}" type="text/css" />
+
+{% endblock css %}
+
+
+{% block content %}
+
+    
+
+<div class="row"  style="margin-top: 2%;">
+
+
+
+
+            <div class=col-md-4>  </div> 
+            <div class=col-md-4> 
+
+
+                <div class="profile">   
+                    {% if user.image %}
+
+                       <img src="{{ user.image.url }}" width="200" height="200"  class="profile_pic" >
+                    {% else %}
+                        <img src="" width="200" height="200"  class="profile_pic" > 
+                    {% endif %}
+                    
+                    <p> Username : <b>  @{{user.user_name}} </b></p>
+                    <p> Author About : <b>  {{user.user_about }} </b></p>
+                </div> 
+                  {% comment %} <h3> 
+                    <pre ><b>Follower   Following </b></pre>   
+                    <pre><b> {{ follower }}            {{following }} </b></pre>
+                  </h3> {% endcomment %}
+
+
+                  <div class="follower">
+                    <h3>
+                        <a href="{% url 'follower_following'  user_name %}" style="text-decoration: none">
+                            <pre ><b>Follower   Following </b></pre>   
+                            <pre><b> {{ follower }}            {{following }} </b></pre>
+                        </a>
+                    </h3>
+                </div>     
+                  
+
+                
+
+              
+
+
+
+            </div>   
+
+            <div class=col-md-4>  </div> 
+            
+
+
+          {% if post_query_set %}
+            {% for post in post_query_set %}
+
+                <div class=col-md-4  style="margin-top: 2%;">
+
+
+                    <div  class="show_posted">
+                      <b>
+                        <a href="{% url  'profile' %}" style="text-decoration: none" > 
+                          {% if  post.post_author.image %}
+
+                          <img src=" {{ post.post_author.image.url }}" alt="Avatar"   class="profile_pic"  >
+
+                      {% endif %}  
+                          
+                          
+                          @{{ post.post_author.user_name }} 
+                        </a> <br> 
+                        Title    :   {{ post.post_title }} <br> <br>
+                      </b>  
+                      
+                      <a href="{% url 'edit_delete_post'  post.id %}"> <img class="posted" src="{{ post.pic.url }}" width="200", height="200" > </a>  <br> <br>
+                        
+                        <b>Discription :  </b> {{ post.post_discription }} <br>
+                        <b>Date :  </b>   {{ post.post_date }} <br>
+
+
+                            <a href="{% url 'show_comments' post.id  %}"> Comment </a>
+                            <a href="{% url 'show_likes' post.id  %}"> Like </a>
+                  </div> <br> 
+                  
+                
+                
+                
+                </div>
+                
+
+            {% endfor %}
+        {% else %}
+            <h1> Your post is not Available  </h1>    
+        {% endif %}
+
+
+
+
+
+</div>
+
+
+ 
+
+
+{% endblock content %}
+
+
+

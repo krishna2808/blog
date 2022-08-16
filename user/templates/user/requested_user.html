@@ -1,0 +1,91 @@
+{% extends 'base.html'%}
+{% load static %}  
+
+
+{% block title %} {{ user.user_name }} {% endblock title %}
+{% block css  %}
+   {{ block.super }}
+   <link rel="stylesheet"  href="{% static 'user/css/custom.css' %}" type="text/css" />
+
+{% endblock css %}
+
+{% block content %}
+
+
+   {% if messages %}
+   <ul class="messages">
+   {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+   {% endfor %}
+   </ul>
+   {% endif %}
+   
+   
+
+
+   <div class="row"> 
+
+        <div class=col-md-4>  </div> 
+        <div class=col-md-4> 
+
+            <div  class="request_cont"> 
+
+                <table  style="width:100%"> 
+
+                    {% for request_user in request_user_queryset %}
+
+                        <tr >
+                        <b>  <td> 
+                           <a href="{% url 'show_user_profile' request_user.current_user.user_name %}" style="text-decoration: none" >
+                           
+                                
+                           {% if  request_user.current_user.image %}
+                               
+                               <img src=" {{ request_user.current_user.image.url }}" alt="Avatar"   class="profile_pic"  >
+
+                           {% endif %}
+                            
+                           @{{request_user.current_user.user_name}}  </a>
+                           </td> 
+                        
+                        </b>  
+
+                        <form action="{% url 'request_accepted' request_user.current_user.user_name  %}" method="POST">
+                            {% csrf_token %} 
+                            <td> 
+                            <button class="button " name="request_id" value="1">
+                                <span class="button__text">Accept</span>
+                                <i class="button__icon fas fa-chevron-right"></i> 
+                            </button> 
+                            </td> 
+
+                        </form> 
+
+                     
+                         </tr> 
+                    {% endfor %}
+                </table>   
+
+
+
+
+            </div> 
+                  
+     
+
+        </div>   
+
+        <div class=col-md-4>  </div> 
+        
+        
+
+    </div>         
+
+
+   
+
+
+{% endblock content %}
+
+
+

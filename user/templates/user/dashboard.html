@@ -1,0 +1,106 @@
+{% extends 'base.html'%}
+{% load static %}  
+
+{% block title %} {{ title }} {% endblock title %}
+
+{% block css  %}
+   {{ block.super }}
+   <link rel="stylesheet"  href="{% static 'user/css/custom.css' %}" type="text/css" />
+
+{% endblock css %}
+
+{% block content %}
+   
+   {% comment %} <a href="{% url 'profile' %}">  Profile </a> <br>
+  
+   <a href="{% url 'add_post' %}">  Add Post </a> <br>
+  
+   <a href="{% url 'show_own_post' %}">  show your post </a> <br>
+
+   <a href="{% url 'add_post' %}">  Add Post </a> <br>
+   
+   
+   <a href="{% url 'log_out' %}">  LogOut </a> <br> <br>
+
+      {% if messages %}
+      <ul class="messages">
+      {% for message in messages %}
+         <li class="{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+      </ul>
+      {% endif %} {% endcomment %}
+
+   {% comment %} <form method="POST" action="{% url 'search_user'  %}" >
+      {% csrf_token %}
+      <label > Search User </label>
+      <input type="text" name="search_user" placeholder=" Search user">
+      <input type="submit" value="Find">
+      
+   
+   </form> <br> <br> {% endcomment %}
+   
+   <div  class=row> </div>
+    
+   {% if posts_query_set %}
+            
+         {% for post in posts_query_set %}
+            <div class=row>
+                     <div class=col-md-4 >
+                     </div>
+
+                           <div class=col-md-6> 
+                                 <div class="post_container">
+
+                                         <b>
+                                          <a href="{% url 'show_user_profile' post.post_author.user_name %}" style="text-decoration: none" >
+                                             
+                                                  
+                                             {% if  post.post_author.image %}
+
+                                                 <img src=" {{ post.post_author.image.url }}" alt="Avatar"   class="profile_pic"  >
+
+                                             {% endif %}  
+                                       
+                                             
+                                             
+                                             
+                                             @{{ post.post_author.user_name }} <br> </a>
+                                       
+                                          Title    :   {{ post.post_title }} <br> <br>
+                                          </b>  
+                                          
+                                          <img src="{{ post.pic.url }}" class="image_post"> <br> <br>
+                                          
+                                          <b>Discription :  </b>  {{ post.post_discription }} <br>
+                                          <b>Date  :  </b>   {{ post.post_date }} <br>
+                                          
+                  
+                                          <a href="{% url 'show_comments' post.id  %}"> Comment </a>
+                                          <a href="{% url 'show_likes' post.id  %}"> Like </a>
+                                    </div>         
+
+                              
+                           </div> 
+                  
+                     
+
+                           <div class=col-md-3 >
+                           </div>
+
+
+
+                  
+               
+            </div> <br> 
+
+         {% endfor %}
+
+   {% else %}
+      <h1> Post is not Available </h1>
+   {% endif %}
+
+
+{% endblock content %}
+
+
+

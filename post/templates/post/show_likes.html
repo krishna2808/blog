@@ -1,0 +1,30 @@
+{% extends 'user/base.html'%}
+
+{% block title %} {{ title }} {% endblock title %}
+
+
+{% block content %}
+
+   <p> Like : {{ count }} </p>
+
+
+
+   {% if like_query_set %}
+       {% for like_instance in like_query_set %}
+          <div>  
+               
+               <a href="{% url 'show_user_profile' like_instance.like %}"><b>  @{{like_instance.like}} </b></a> 
+          
+                 <br> <br>
+          </div>   
+        {% endfor %}        
+
+   {% endif %}
+   
+     
+
+
+{% endblock content %}
+
+
+

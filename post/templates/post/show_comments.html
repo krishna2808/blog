@@ -1,0 +1,45 @@
+{% extends 'base.html'%}
+
+{% block title %} {{ title }} {% endblock title %}
+
+
+{% block content %}
+
+
+   {% if messages %}
+   <ul class="messages">
+   {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+   {% endfor %}
+   </ul>
+   {% endif %}
+   
+   
+   
+   <form action="{% url 'show_comments' post_id %}", method="POST"  novalidate  > 
+
+    {% csrf_token %}
+    <label> Add Comment </label>
+     <textarea name="comment" id="" cols="20" rows="3" placeholder="Add Comment"> </textarea> <br>
+  
+    <input type="submit" value="Submit"> 
+
+   </form> <br> <br>
+
+   {% if comment_query_set %}
+       {% for comment_instance in comment_query_set %}
+          <div>
+            <a href="{% url 'show_user_profile' comment_instance.comment_user.user_name %}"><b> @{{ comment_instance.comment_user.user_name }} </b></a> <br>
+                 {{ comment_instance.comment }} <br> <br>
+          </div>   
+        {% endfor %}        
+
+   {% endif %}
+   
+     
+
+
+{% endblock content %}
+
+
+

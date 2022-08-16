@@ -1,0 +1,143 @@
+{% extends 'base.html'%}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block title %} {{ title }} {% endblock title %}
+
+
+
+
+{% block css %}  
+ <link href="{% static 'user/css/account.css' %}" rel="stylesheet" >
+   
+
+{%endblock css %}
+
+
+
+{% if messages %}
+   <ul class="messages">
+   {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+   {% endfor %}
+   </ul>
+   {% endif %}
+ 
+{% block navbar %}  {% endblock navbar%}
+
+{% block content %}
+
+<div class="container">
+	<div class="screen">
+		<div class="screen__content">
+			<form class="login"  action="{% url 'sign_in' %}", method="POST" novalidate >
+				<div class="login__field">
+					<i class="login__icon fas fa-user"></i>
+                      
+                      
+                           {% csrf_token %}
+
+                           {% for field in form %}
+                              <div>
+
+                                 {% render_field field class="login__input" placeholder=field.label %}
+                                  
+                                  
+                                 {{ field.errors }}
+
+
+                              </div>
+                              
+                           {% endfor %}
+                           {% comment %} <input type="submit" value="Submit"> {% endcomment %}
+
+
+                           <button class="button login__submit">
+                              <span class="button__text">Log In Now</span>
+                              <i class="button__icon fas fa-chevron-right"></i> </button> 
+                           	
+
+
+                           
+
+
+				</div>
+
+         </form>
+
+                      
+                       <button class="btn1"><a href="{% url 'sign_up' %}">Sign Up</a></button>
+				
+			
+
+		</div>
+		<div class="screen__background">
+			<span class="screen__background__shape screen__background__shape4"></span>
+			<span class="screen__background__shape screen__background__shape3"></span>		
+			<span class="screen__background__shape screen__background__shape2"></span>
+			<span class="screen__background__shape screen__background__shape1"></span>
+		</div>		
+	</div>
+</div>
+
+
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html'%} {% endcomment %}
+
+
+   {% comment %} {% if messages %}
+   <ul class="messages">
+   {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+   {% endfor %}
+   </ul>
+   {% endif %}
+
+   
+   <form action="{% url 'sign_in' %}", method="POST"  novalidate > 
+
+    {% csrf_token %}
+
+    {% for field in form %}
+       <div>
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+
+
+      </div>
+       
+    {% endfor %}
+    <input type="submit" value="Submit">
+
+
+   </form>
+      <br>
+   <a href="{% url 'sign_up' %}">  Sign Up </a> <br> <br> {% endcomment %}
+
+     
+
+
+{% comment %} {% endblock content %} {% endcomment %}
+
+
+

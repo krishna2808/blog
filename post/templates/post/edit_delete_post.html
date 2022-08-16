@@ -1,0 +1,48 @@
+{% extends 'base.html'%}
+
+{% block title %} {{ title }} {% endblock title %}
+
+
+{% block content %}
+
+   {% if messages %}
+   <ul class="messages">
+   {% for message in messages %}
+   <li class="{{ message.tags }}">{{ message }}</li>
+   {% endfor %}
+   </ul>
+   {% endif %}
+
+
+ 
+   <img src="{{ post.pic.url }}" > <br>
+   
+   <form action="{% url 'edit_delete_post' post.id %}"  method="POST"  novalidate  enctype="multipart/form-data" > 
+
+    {% csrf_token %}
+  
+
+    {% for field in form %}
+       <div>
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }} <br>
+
+
+      </div> <br>
+       
+    {% endfor %}
+    <input type="submit" value="Save">
+
+
+   </form>
+
+   <a href="{% url 'delete_post' post.id %}">  <button> Delete Post </button> </a>
+   
+     
+
+
+{% endblock content %}
+
+
+

@@ -1,0 +1,110 @@
+{% extends 'base.html'%}
+{% load static %}  
+
+
+{% block title %} {{ title }} {% endblock title %}
+
+
+
+{% block css  %}
+   {{ block.super }}
+   <link rel="stylesheet"  href="{% static 'user/css/custom.css' %}" type="text/css" />
+
+{% endblock css %}
+
+
+{% block content %}
+
+    
+
+<div class="row"  style="margin-top: 2%;">
+
+
+
+
+            <div class=col-md-2  col-sm-1>  </div> 
+            <div class=col-md-4 col-sm> 
+                    <h5>Follower </h5>  <br> <br>
+
+                    {% if follower %}
+
+                                
+                                    {% for user in follower %}
+                                        <b>
+                                            <a href="{% url 'show_user_profile' user.current_user.user_name %}" style="text-decoration: none" >
+                                            
+                                                    
+                                            {% if user.current_user.image %}
+        
+                                                <img src=" {{ user.current_user.image.url }}" alt="Avatar"   class="profile_pic"  >
+        
+                                            {% endif %}  
+                                        
+                                            
+                                            
+                                            
+                                            @{{user.current_user.user_name }} <br> </a>
+                                        
+                                            <br> 
+                                        </b>
+                                    {% endfor %}    
+
+                    {% endif %}
+
+ 
+
+            </div>   
+
+
+            <div class=col-md-4 col-sm> 
+
+                
+                <h5>Following  </h5><br > <br> 
+
+                {% if following  %}
+
+                            {% for user in following %}
+                                <b>
+                                    <a href="{% url 'show_user_profile' user.friend.user_name %}" style="text-decoration: none" >
+                                    
+                                            
+                                    {% if  user.friend.image %}
+
+                                        <img src=" {{ user.friend.image.url }}" alt="Avatar"   class="profile_pic"  >
+
+                                    {% endif %}  
+                                
+                                    
+                                    
+                                    
+                                    @{{user.friend.user_name }} <br> </a>
+                                
+                                    <br> 
+                                </b>  
+                        
+
+
+
+
+                            {% comment %} {{user.friend.user_name }} {% endcomment %}
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+ 
+
+            </div> 
+
+            <div class=col-md-2 col-sm-1>  </div> 
+            
+
+
+ 
+
+
+{% endblock content %}
+
+
+

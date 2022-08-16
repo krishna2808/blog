@@ -1,0 +1,86 @@
+{% extends 'base.html'%}
+{% load static %}  
+
+{% block title %} {{ title }} {% endblock title %}
+
+
+
+{% block css  %}
+   {{ block.super }}
+   <link rel="stylesheet"  href="{% static 'user/css/custom.css' %}" type="text/css" />
+
+{% endblock css %}
+
+
+
+{% block content %}
+
+
+   {% if messages %}
+
+     
+         <ul class="messages">
+         {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+         {% endfor %}
+         </ul>
+         {% endif %}
+
+         <div class="row"> 
+
+            <div class=col-md-4>  </div> 
+            <div class=col-md-4> 
+
+
+
+
+                  <div class="profile">   
+                     {% if user.image  %}
+                     <img src="{{ user.image.url }}" width="200" height="200" class="profile_pic">
+                     {% else %}
+                        <img src="" width="200" height="200" > 
+                     {% endif %} <br> <br> 
+                     
+                     <form action="{% url 'profile' %}", method="POST"  novalidate  enctype="multipart/form-data" > 
+
+                     {% csrf_token %}
+
+                     {% for field in form %}
+                        <div>
+                              {{ field.label_tag }}  <br>
+                              {{ field }}             <br>
+                              {{ field.errors }}       <br>
+
+
+                        </div>
+                        
+                     {% endfor %}
+                     <input type="submit" value="Submit">
+
+
+                     </form>
+                  </div>       
+
+
+
+
+            </div>
+
+            <div class=col-md-4> </div>
+
+
+
+
+            </div>
+
+
+         </div>
+
+   
+     
+
+
+{% endblock content %}
+
+
+
