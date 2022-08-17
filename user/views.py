@@ -82,9 +82,6 @@ def show_user_profile(request, user_name):
             if  request_id == 0 : 
                 friend_instance = Friend(current_user=request.user, friend=user, friend_request=request_id)
                 friend_instance.save() 
-            # elif request_id == 1: 
-            #     friend_instance.friend_request =  1 
-                # friend_instance.save() 
             elif request_id == -1: 
                 friend_instance = Friend.objects.get(current_user=request.user, friend=user)
                 friend_instance.delete()
@@ -104,12 +101,7 @@ def show_user_profile(request, user_name):
 def log_out(request):
      logout(request)
      return HttpResponseRedirect('/sign_in')
-    #  print('before delete cookie ***************** ', request.COOKIES['user_name'])
-    #  response.delete_cookie('user_name')   
-    #  user_name  = request.COOKIES['user_name']
-    #  print('username ************ ' , user_name)
-     
-    #  response.delete_cookie('user_name', '')
+  
 
 @login_required(login_url='sign_in')
 def profile(request):

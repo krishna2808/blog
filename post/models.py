@@ -21,6 +21,8 @@ class Post(models.Model):
     class Meta: 
       ordering = ['-post_date']
 
+
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name ='comment_user')
     comment = models.CharField(max_length=400)
@@ -35,12 +37,9 @@ class Comment(models.Model):
     class Meta: 
       ordering = ['-comment_date']
 
+
 class Like(models.Model):
   post = models.ForeignKey(Post, on_delete=models.CASCADE)
   like =  models.ForeignKey(User,on_delete=models.CASCADE )
 
   Likes = models.Manager() 
-
-class Temp(models.Model):
-  name = models.CharField(max_length=20)  
-         

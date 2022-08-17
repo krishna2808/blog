@@ -10,6 +10,7 @@
 
 
 {% block css %}  
+ {{ block.super }}
  <link href="{% static 'user/css/account.css' %}" rel="stylesheet" >
    
 
@@ -57,10 +58,7 @@
                            <button class="button login__submit">
                               <span class="button__text">Log In Now</span>
                               <i class="button__icon fas fa-chevron-right"></i> </button> 
-                           	
-
-
-                           
+    
 
 
 				</div>

@@ -1,6 +1,15 @@
 {% extends 'base.html'%}
-
+{% load static %}  
 {% block title %} {{ title }} {% endblock title %}
+
+
+
+{% block css  %}
+   {{ block.super }}
+   <link rel="stylesheet"  href="{% static 'user/css/custom.css' %}" type="text/css" />
+
+{% endblock css %}
+
 
 
 {% block content %}
@@ -13,32 +22,85 @@
    {% endfor %}
    </ul>
    {% endif %}
-   
-   
-   
+
+
+
+
+
+
+
+<div class=row> 
+            <div class=col-md-4> </div>
+            <div class=col-md-4>
+                   
    <form action="{% url 'show_comments' post_id %}", method="POST"  novalidate  > 
 
     {% csrf_token %}
-    <label> Add Comment </label>
-     <textarea name="comment" id="" cols="20" rows="3" placeholder="Add Comment"> </textarea> <br>
-  
-    <input type="submit" value="Submit"> 
+                <label> Add Comment </label>
+                 <textarea name="comment" id="" cols="20" rows="3" placeholder="Add Comment"> </textarea> <br>
+              
+                <input type="submit" value="Submit"> 
 
-   </form> <br> <br>
+               </form> <br> <br>
 
-   {% if comment_query_set %}
-       {% for comment_instance in comment_query_set %}
-          <div>
-            <a href="{% url 'show_user_profile' comment_instance.comment_user.user_name %}"><b> @{{ comment_instance.comment_user.user_name }} </b></a> <br>
-                 {{ comment_instance.comment }} <br> <br>
-          </div>   
-        {% endfor %}        
+               {% if comment_query_set %}
+                   {% for comment_instance in comment_query_set %}
+                      <div>
+                                
+                        <b>
+                                <a href="{% url  'show_user_profile' comment_instance.comment_user.user_name %}" style="text-decoration: none" > 
+                                  {% if  comment_instance.comment_user.image %}
 
-   {% endif %}
+                                          <img src=" {{ comment_instance.comment_user.image.url }}" alt="Avatar"   class="profile_pic"  >
+
+                                      {% endif %}  
+                                          
+                                          
+                                          @{{ comment_instance.comment_user.user_name }}
+                               </a> 
+                        </b>     <br>  {{ comment_instance.comment }}  <br>  <br> 
+
+
+
+
+
+                        
+                      </div>   
+                    {% endfor %}        
+
+               {% endif %}
+               
+                 
+
+
+
+            </div>
+            <div class=col-md-4> </div>
+
+
+   </div>
    
-     
+   
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+   
+   
 {% endblock content %}
 
 

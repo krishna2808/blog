@@ -1,5 +1,7 @@
-#class base view 
 
+
+
+# ---------------------------- Package import ----------------------------------
 
 
 from django.shortcuts import render
@@ -11,35 +13,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin 
-
 from django.views import View
 
-# Create your views here.
 
+#class base view 
 
-# @login_required(login_url='sign_in')
-# def add_post(request):
-#     form = AddPost()
-#     if request.method == 'POST':
-#         form = AddPost(request.POST)
-#         print('request.POST', request.POST)
-#         print('request.FILES ****88 ', request.FILES,)
-           
-#         if request.POST.get('pic') != ''  and request.POST.get('post_title') and request.POST.get('post_discription') != ''     :
-
-#             user_query_set = User.Users.get(user_name='vishal')
-#             if user_query_set: 
-               
-#                 post = Post(post_author=user_query_set, post_title = request.POST.get('post_title'), pic= request.POST['pic'], post_discription = request.POST.get('post_discription')).save()
-             
-#             return HttpResponseRedirect('/dashboard')
-            
-
-#     return render(request, 'post/add_post.html', {'form': form, 'title': 'Add Post'})
-
-
-
-# @login_required(login_url='sign_in')
+# Class base View ------------------------------------------------------
 
 class AddPostView(LoginRequiredMixin, View):
     login_url = 'sign_in'
@@ -61,6 +40,9 @@ class AddPostView(LoginRequiredMixin, View):
                 return HttpResponseRedirect('/post/add_post')
         return render(request, 'post/add_post.html', {'form': form, 'title': 'Add Post'})
 
+
+
+
 class ShowOwnPost(LoginRequiredMixin, View):
     login_url = 'sign_in'
     
@@ -73,6 +55,9 @@ class ShowOwnPost(LoginRequiredMixin, View):
         print(following, follower, 'folower follwing ****** ')
         data = {'post_query_set': post_query_set, 'user_name': user_name,  'title': 'Show Your Post', 'user' : user_model_instance, 'follower' : follower, 'following': following}
         return render(request, 'post/show_own_post.html', context=data )
+
+
+
 
 class EditDeletePost(LoginRequiredMixin, View):
     login_url = 'sign_in'
@@ -94,22 +79,22 @@ class EditDeletePost(LoginRequiredMixin, View):
             post_instance.save()
             messages.success(request, 'Your Post successfully Updated !')
             return render(request, 'post/edit_delete_post.html', {'form': form, 'title': 'Edit & Delete Post', 'post': post_instance})
+        
 
-
-        return render(request, 'post/edit_delete_post.html', {'form': form, 'title': 'Edit & Delete Post', 'post': post_instance})
+        data = {'form': form, 'title': 'Edit & Delete Post', 'post': post_instance}
+        return render(request, 'post/edit_delete_post.html', context=data )
 
    
 
 class CommentView(LoginRequiredMixin, View):
-
         login_url = 'sign_in'
-        
         def get(self,request, post_id):
             post_instance = Post.Posts.get(id=post_id)
 
             comment_query_set = Comment.Comments.filter(post=post_instance)
+            data = {'comment_query_set': comment_query_set, 'post_id' : post_id, }
 
-            return render(request, 'post/show_comments.html', {'comment_query_set': comment_query_set, 'post_id' : post_id, })
+            return render(request, 'post/show_comments.html', context=data)
 
         def post(self,request, post_id): 
             post_instance = Post.Posts.get(id=post_id)
@@ -122,8 +107,9 @@ class CommentView(LoginRequiredMixin, View):
                 messages.success(request, 'Your Comment successfully Added !')
             else:
                 messages.warning(request, 'Add Comment First ')
-
-            return render(request, 'post/show_comments.html', {'comment_query_set': comment_query_set, 'post_id' : post_id, })
+            
+            data= {'comment_query_set': comment_query_set, 'post_id' : post_id, }
+            return render(request, 'post/show_comments.html',context=data)
         
         
         
@@ -137,7 +123,8 @@ class LikeView(View):
         like_counter = Like.Likes.filter(post=post_instance).count()
         
         like_query_set = Like.Likes.filter(post=post_instance)
-        return render(request, 'post/show_likes.html', {'title': title, 'count': like_counter, 'like_query_set':like_query_set})
+        data = {'title': title, 'count': like_counter, 'like_query_set':like_query_set}
+        return render(request, 'post/show_likes.html', context=data)
                       
 
 def delete_post(request, post_id):
