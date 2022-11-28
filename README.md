@@ -1,5 +1,5 @@
 # blog
-## python vestion 
+## Python Vestion 
    Python 3.8.10
 
 ## how to Project setup
