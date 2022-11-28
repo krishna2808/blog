@@ -1,8 +1,8 @@
-# blog
+# Blog
 ## Python Vestion 
    Python 3.8.10
 
-## how to Project setup
+## How to Project setup
 
    pip install -r requirements.txt <br>
    SECRET_KEY  -->   uncomment in setting py
