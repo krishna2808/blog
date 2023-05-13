@@ -5,41 +5,44 @@ from user.models import User
 
 
 class Post(models.Model):
-    post_author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post_user')
-    post_title = models.CharField(max_length=40)
-    pic = models.ImageField(upload_to='images/post/%Y/%m/%d/%T')
-
-    post_discription = models.TextField()
-    post_date = models.DateTimeField(auto_now_add=True)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post_user')
+    title = models.CharField(max_length=40)
+    image = models.ImageField(upload_to='images/post/%Y/%m/%d/%T')
+    description = models.TextField(null=True, blank=True)
+    modified_datetime = models.DateTimeField(auto_now=True)
+    created_datetime = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-       return self.post_title
+       return self.title
 
      # Change model manager 
     Posts = models.Manager()   
     
     class Meta: 
-      ordering = ['-post_date']
+      ordering = ['-created_datetime']
 
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name ='comment_user')
-    comment = models.CharField(max_length=400)
-    comment_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_user')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name ='comment_post')
+    comment = models.CharField(max_length=400, null=True, blank=True)
+    modified_datetime = models.DateTimeField(auto_now=True)
+    created_datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-      return self.post.post_title
+      return self.post.title
 
     Comments = models.Manager()  
     
     class Meta: 
-      ordering = ['-comment_date']
+      ordering = ['-created_datetime']
 
 
 class Like(models.Model):
-  post = models.ForeignKey(Post, on_delete=models.CASCADE)
-  like =  models.ForeignKey(User,on_delete=models.CASCADE )
+  post = models.ForeignKey(Post, on_delete=models.CASCADE,  related_name='like_post')
+  user =  models.ForeignKey(User,on_delete=models.CASCADE , related_name='like_user')
+  count = models.IntegerField(default=0)
 
   Likes = models.Manager() 
+  def __str__(self):
+    return str(self.count)

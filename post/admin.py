@@ -4,17 +4,17 @@ from .models import Post, Comment, Like
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('post_author','post_title', 'post_date')
+    list_display = ('user','title', 'created_datetime')
 
 
 
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('post', 'comment', 'comment_user')
+    list_display = ('user', 'post','comment', 'created_datetime')
 
 
 @admin.register(Like)
 class LikeAdmin(admin.ModelAdmin):
-    list_display = ('post','like')
+    list_display = ('post','user')
     

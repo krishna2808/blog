@@ -3,11 +3,6 @@
 
 from django.db import models
 
-# Create your models here.
-
-
-
-
 from django.db import models
 import datetime 
 
@@ -18,8 +13,9 @@ from django.contrib.auth.models import (
 )
 
 
+
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, name, user_name, user_about=None,  password=None, password2=None):
+    def create_user(self, email, user_name, first_name = None, last_name = None, user_about=None,  password=None, password2=None):
         """
         Creates and saves a User with the given email, name, address,  and password.
         """
@@ -28,7 +24,8 @@ class CustomUserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
-            name = name, 
+            first_name = first_name,
+            last_name = last_name,
             user_name  = user_name,
             user_about = user_about, 
             # image = image
@@ -39,15 +36,15 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, name, user_name, user_about=None,  password=None, password2=None):
+    def create_superuser(self, email, user_name,first_name = None, last_name =None, user_about=None,  password=None, password2=None):
         """
         Creates and saves a superuser with the given email, name, address, image, and password.
         """
         user = self.create_user(
             email,
-            name = name, 
+            first_name = first_name,
+            last_name = last_name,
             user_name  = user_name,
-            
             user_about = user_about, 
             # image = image
             
@@ -64,10 +61,11 @@ class User(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
-    name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
     user_name = models.CharField(max_length=50)
     user_about = models.CharField(max_length=200, null=True, blank=True)
-    image = models.ImageField( default='default.png'   ,upload_to='image/profile/'+ str(datetime.datetime.now()).replace(' ', '-') )
+    image = models.ImageField(null=True,blank=True, default='default.png'   ,upload_to='image/profile/'+ str(datetime.datetime.now()).replace(' ', '-') )
     
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -78,7 +76,7 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ['name', 'user_name']
 
     def __str__(self):
-        return self.email
+        return self.user_name
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
