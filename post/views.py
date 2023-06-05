@@ -16,14 +16,16 @@ class DashboardView(APIView):
 
 class PostView(APIView):
 
-    def get(self, request, post_id,format=None):
-        post_queryset = Post.Posts.filter(id=post_id)
+    def get(self, request, post_id, format=None):
+        print("****************    **********")
+        post_queryset = Post.Posts.filter(user__id = post_id) 
         post_serializer = PostSerializer(post_queryset, many=True)
         return Response(post_serializer.data)
 
 
     def post(self, request, post_id, format=None):
         # print('request.data.......................................', request.data.get(""))
+        
         post_serializer = PostSerializer(data = request.data)
         if post_serializer.is_valid():
                post_serializer.save()

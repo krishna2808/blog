@@ -25,7 +25,6 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'user','username', 'post', 'comment', 'created_datetime', ]
         
 class PostSerializer(serializers.ModelSerializer):
-    
     username = serializers.SerializerMethodField()
     
     def get_username(self, obj):

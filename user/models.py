@@ -98,7 +98,6 @@ class User(AbstractBaseUser):
 class Friend(models.Model):
     current_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
     friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
-    
     friend_request = models.IntegerField(default=-1)
     request_date = models.DateTimeField(auto_now_add=True)
     

@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('dashboard/', DashboardView.as_view(), name='dashboard' ),
-    path('post/<int:post_id>/', PostView.as_view(), name='post' ),
+    # path('post/', PostView.as_view(), name='post' ),
+    path('post/<int:post_id>/', PostView.as_view(), name='post'),
     # path('add_post/', views.add_post, name='add_post' ),
     # path('add_post/', views.AddPostView.as_view(), name='add_post' ),
     # path('show_own_post/', views.ShowOwnPost.as_view(), name='show_own_post' ),

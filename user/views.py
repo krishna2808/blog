@@ -7,22 +7,24 @@ from .models import *
 
 
 class ProfileView(APIView):
-    def get(self, request, format=None):
-        user_querset = User.objects.all()
+    def get(self, request, user_id=None, format=None):
+        # user_querset = User.objects.all()
+        user_querset = User.objects.filter(id=user_id)
         profile_serializer = UserProfileSerializer(user_querset, many=True)
-        return Response(profile_serializer.data, )
-
-
-
-
-
-
-
-
-
-
-
-
+        # profile_serializer = UserProfileSerializer(user_querset)
+        return Response(profile_serializer.data)
+    
+    def put(self, request, user_id=None, format = None):
+        #user_id = request.data.get('user')
+        user_queryset = User.objects.filter(id=user_id)
+        if user_queryset:
+            user_serializer = UserProfileSerializer(user_queryset[0], data = request.data)
+            if user_serializer.is_valid():
+               user_serializer.save()
+               return Response(user_serializer.data)
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'msg': "Not update post"}, status=status.HTTP_400_BAD_REQUEST)
+    
 
 
 

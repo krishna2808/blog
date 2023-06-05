@@ -7,7 +7,7 @@ from user.models import User
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post_user')
     title = models.CharField(max_length=40)
-    image = models.ImageField(upload_to='images/post/%Y/%m/%d/%T')
+    image = models.ImageField(upload_to='images/post/%Y/%m/%d/%T', blank=True, null=True)
     description = models.TextField(null=True, blank=True)
     modified_datetime = models.DateTimeField(auto_now=True)
     created_datetime = models.DateTimeField(auto_now_add=True)
@@ -19,7 +19,6 @@ class Post(models.Model):
     
     class Meta: 
       ordering = ['-created_datetime']
-
 
 
 class Comment(models.Model):
@@ -46,3 +45,5 @@ class Like(models.Model):
   Likes = models.Manager() 
   def __str__(self):
     return str(self.count)
+  
+  

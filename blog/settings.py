@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+#from django.middleware import cors
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,7 +27,7 @@ SECRET_KEY = "1jpo1t@5pwzy06pm_&(po+tk-u^@9^n+en5wrvpz#y$5$@tf%1"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True 
 
-ALLOWED_HOSTS = ["blog2808.herokuapp.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["blog2808.herokuapp.com", "localhost", "127.0.0.1", "ashusbook.com", "192.168.43.210"]
 
 
 # Application definition
@@ -41,14 +41,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'rest_framework',
+     'corsheaders',
     'user', 
     'post',
+   
 ]
+
+CORS_ALLOWED_ORIGINS = [ "http://localhost:3002",]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -150,3 +155,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+CORS_ALLOW_METHODS = [ 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
