@@ -1,0 +1,73 @@
+version: '2'
+
+services:
+    blog_web:
+        restart: unless-stopped
+        container_name: blog_web
+        build:
+            context: .
+            dockerfile: docker/backend/Dockerfile
+        entrypoint: /app/blog/docker/backend/entry-point/server-entrypoint.sh
+        volumes:
+            - static_user_volume:/app/blog/user/static/
+        ports:
+            - 9000:8000
+        environment:
+            DEBUG: "True"
+            CELERY_BROKER_URL: "redis://redis:6379/0"
+            CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+            DJANGO_DB: blog
+            MYSQL_HOST: db_mysql_blog
+            MYSQL_NAME: mysql
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+            MYSQL_PORT: 3306
+        depends_on:
+            - db_mysql_blog
+
+    blog_worker:
+        restart: unless-stopped
+        container_name: blog_worker
+        build:
+            context: .
+            dockerfile: docker/backend/Dockerfile
+        entrypoint: /app/blog/docker/backend/entry-point/worker-entrypoint.sh
+        volumes:
+            - static_user_volume:/app/blog/user/static/
+        environment:
+            DEBUG: "True"
+            CELERY_BROKER_URL: "redis://redis:6379/0"
+            CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+            DJANGO_DB: blog
+            MYSQL_HOST: db_mysql_blog
+            MYSQL_NAME: mysql
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+            MYSQL_PORT: 3306
+        depends_on:
+            - blog_web
+            - redis
+    redis:
+        restart: unless-stopped
+        image: redis:7.0.5-alpine 
+        expose:
+            - 6379
+    db_mysql_blog:
+        #command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+        #command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --bind-address=0.0.0.0
+        container_name: db_mysql_blog
+        hostname: db_mysql_blog
+        environment:
+            MYSQL_DATABASE: "blog"
+            MYSQL_ROOT_PASSWORD: "root"
+            #MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+            #MYSQL_HOST: "db_mysql_blog"
+        image: mysql:8
+        volumes:
+             - db_data:/var/lib/mysql
+        ports:
+            - 3306:3306
+
+volumes:
+    static_user_volume: {}
+    db_data:

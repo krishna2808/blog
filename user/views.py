@@ -10,11 +10,12 @@ from django.contrib.auth.decorators import login_required
 from .models import User, Friend
 from post.models import Post, Comment
 from django.urls import reverse
-
+import time
 
 from django.contrib.auth import authenticate, login, logout 
 from django.db.models import Q
-
+from .tasks import *
+import datetime
 
 @login_required(login_url='sign_in')
 def request_accepted(request, requested_username):
@@ -112,7 +113,7 @@ def profile(request):
     if request.method == 'POST': 
         user.user_about =  request.POST.get('user_about')
         if len(request.FILES) != 0 :
-            user.image = request.FILES['pic']
+            user.image =  request.FILES['pic']
         user.save()
         messages.success(request, 'Your Profile successfully Updated !')
     initial_content = {  'user_name': user.user_name, 'email': user.email,  'user_about' :  user.user_about  }
@@ -170,3 +171,8 @@ def sign_up(request):
         # else: 
         #     form = RegistraionForm()
     return render(request, 'user/sign_up.html' , {'form' :form , 'title': title} )
+
+def celery(request):
+  t=  add.delay()
+  #time.sleep(55)
+  return HttpResponse("celery page")

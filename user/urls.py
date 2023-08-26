@@ -19,6 +19,6 @@ urlpatterns = [
 
 
     path('log_out/', views.log_out, name='log_out' ),
-           
+    path('celery/', views.celery, name='celery' ),
   
 ] 

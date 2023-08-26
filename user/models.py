@@ -1,12 +1,7 @@
 
-
-
 from django.db import models
 
 # Create your models here.
-
-
-
 
 from django.db import models
 import datetime 
@@ -67,8 +62,7 @@ class User(AbstractBaseUser):
     name = models.CharField(max_length=50)
     user_name = models.CharField(max_length=50)
     user_about = models.CharField(max_length=200, null=True, blank=True)
-    image = models.ImageField( default='default.png'   ,upload_to='image/profile/'+ str(datetime.datetime.now()).replace(' ', '-') )
-    
+    image = models.ImageField( default='default.png'   ,upload_to='images/profile/')
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 

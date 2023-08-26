@@ -7,7 +7,7 @@ from user.models import User
 class Post(models.Model):
     post_author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post_user')
     post_title = models.CharField(max_length=40)
-    pic = models.ImageField(upload_to='images/post/%Y/%m/%d/%T')
+    pic = models.ImageField(upload_to='images/post/')
 
     post_discription = models.TextField()
     post_date = models.DateTimeField(auto_now_add=True)

@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin 
 from django.views import View
-
+import datetime
 
 #class base view 
 
@@ -33,8 +33,8 @@ class AddPostView(LoginRequiredMixin, View):
         if request.POST.get('pic') != ''  and request.POST.get('post_title') and request.POST.get('post_discription') != ''     :
             # user_name  = request.COOKIES['user_name']
             user_model_instance = User.objects.get(email=request.user )
-            if user_model_instance:                
-                post = Post(post_author=user_model_instance, post_title = request.POST.get('post_title'), pic=request.FILES.get('pic')  , post_discription = request.POST.get('post_discription')).save()
+            if user_model_instance:
+                post = Post(post_author=user_model_instance, post_title = request.POST.get('post_title'), pic= request.FILES.get('pic')  , post_discription = request.POST.get('post_discription')).save()
                 messages.success(request, 'Your Post successfully Added !')
              
                 return HttpResponseRedirect('/post/add_post')
