@@ -6,10 +6,10 @@ services:
         container_name: blog_web
         build:
             context: .
-            dockerfile: docker/backend/Dockerfile
-        entrypoint: /app/blog/docker/backend/entry-point/server-entrypoint.sh
+            dockerfile: blog/docker/Dockerfile
+        entrypoint: /app/blog-project/blog/docker/backend/entry-point/server-entrypoint.sh
         volumes:
-            - static_user_volume:/app/blog/user/static/
+            - static_user_volume:/app/blog-project/blog/user/static/
         ports:
             - 9000:8000
         environment:
@@ -30,10 +30,10 @@ services:
         container_name: blog_worker
         build:
             context: .
-            dockerfile: docker/backend/Dockerfile
-        entrypoint: /app/blog/docker/backend/entry-point/worker-entrypoint.sh
+            dockerfile: blog/docker/Dockerfile
+        entrypoint: /app/blog-project/blog/docker/backend/entry-point/worker-entrypoint.sh
         volumes:
-            - static_user_volume:/app/blog/user/static/
+            - static_user_volume:/app/blog-project/blog/user/static/
         environment:
             DEBUG: "True"
             CELERY_BROKER_URL: "redis://redis:6379/0"
@@ -48,6 +48,7 @@ services:
             - blog_web
             - redis
     redis:
+        container_name: blog_redis
         restart: unless-stopped
         image: redis:7.0.5-alpine 
         expose:
@@ -67,6 +68,14 @@ services:
              - db_data:/var/lib/mysql
         ports:
             - 3306:3306
+
+    nginx:
+      container_name: blog_nginx
+      build: nginx/
+      ports:
+        - 80:1337
+      depends_on:
+        - blog_web
 
 volumes:
     static_user_volume: {}
