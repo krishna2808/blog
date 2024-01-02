@@ -1,4 +1,6 @@
 # Blog
+## Tech Stack
+    Django, HTML, CSS, javascript, Jinja template.
 ## Python Vestion 
    Python 3.8.10
 
